@@ -1,0 +1,125 @@
+*{
+    font-size: 0px;
+    font-family:'Courier New', Courier, monospace;
+}
+body{
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100vw;
+    height: 100vh;
+    background-color: black;
+    overflow:hidden;
+    padding:0px;
+    margin: 0px;
+}
+#main-map{
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 80vw;
+    
+    height: 100vmin;
+    background-color: rgb(41, 41, 41);
+    display:inline;
+    overflow: scroll;
+    white-space: nowrap;
+}
+.empty{
+    display:inline-block;
+}
+.room{
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    border: 2px solid black;
+    display:inline-block;
+    background-color: gray;
+    position:relative;
+    margin: 0px;
+    padding: 0px;
+    vertical-align: top;
+    overflow: visible;
+    cursor: pointer;
+}
+.room_stat{
+    display: none;
+}
+.room:hover .tooltip{
+    display: inline-block;
+}
+.room:hover{
+    border: 1px solid red;
+}
+
+.door_n{
+    position: absolute;
+    width: 2vmin;
+    height: 10px;
+    background-color: gray;
+    top: -5px;
+    left: 50%;
+    margin-left: -1vmin;
+}
+.door_s{
+    position: absolute;
+    width: 2vmin;
+    height: 10px;
+    background-color: gray;
+    bottom: -5px;
+    left: 50%;
+    margin-left: -1vmin;
+}
+.door_e{
+    z-index: 3;
+    position: absolute;
+    width: 10px;
+    height: 2vmin;
+    background-color: gray;
+    right: -8px;
+    top: 50%;
+    margin-top: -1vmin;
+}
+.door_w{
+    z-index: 3;
+    position: absolute;
+    width: 10px;
+    height: 2vmin;
+    background-color: gray;
+    left: -5px;
+    top: 50%;
+    margin-top: -1vmin;
+}
+#controls{
+    color: white;
+    font-size: 15px;
+    width: 100%;
+    padding: 10px;
+}
+#stat{
+    background-color: rgba(255,255,255,0.1);
+    color: white;
+    font-size: 15px;
+    width: 100%;
+    
+}
+#sidepanel{
+    width: 19vw;
+    position:absolute;
+    right: 0px;
+    top:0px;
+    padding: 0.5vw;
+}
+#controls *{
+    font-size: 10px;
+}
+#controls input{
+    width: 15vw;
+}
+#newbutton{
+    font-size: 15px;
+}
+#id{
+    font-size: 30px;
+    color: white;
+}

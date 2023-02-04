@@ -24,10 +24,13 @@ def print_map(m):
         print(printstr)
 
 # OUTPUT JSON
-def output_json(m):
+def output_json(m,i):
     map_id = ''.join(random.choices(string.ascii_letters, k=7))
-
-    json_obj = json.dumps(m, indent=4)
+    data = {
+        "map": m,
+        "items": i
+    }
+    json_obj = json.dumps(data, indent=4)
     with open("data/" + map_id + "_map.json", "w") as outpath:
         outpath.write(json_obj)
     return map_id
@@ -209,7 +212,7 @@ def main(size):
                 if (room["doors"]["n"] == True or room["doors"]["s"] == True or room["doors"]["e"] == True or room["doors"]["w"] == True):
                     if y not in room_list: room_list[y] = {}
                     room_list[y][x] = room
-    map_id = output_json(room_list)
+    map_id = output_json(room_list, ITEM_LIST)
     return map_id
 
 if __name__=='__main__':
