@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>mapi</title>
+    <style>
+        *{
+            font-size: 0px;
+            font-family:'Courier New', Courier, monospace;
+        }
+        body{
+            position: absolute;
+            top: 0px;
+            left: 0px;
+            width: 100vw;
+            height: 100vh;
+            background-color: black;
+            overflow:hidden;
+            padding:0px;
+            margin: 0px;
+        }
+        #main-map{
+            position: absolute;
+            top: 0px;
+            left: 0px;
+            width: 80vw;
+            height: 100vmin;
+            background-color: rgb(41, 41, 41);
+            display:inline;
+            overflow: scroll;
+            white-space: nowrap;
+        }
+        .empty{
+            display:inline-block;
+        }
+        .room{
+            box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            -webkit-box-sizing: border-box;
+            border: 2px solid black;
+            display:inline-block;
+            background-color: gray;
+            position:relative;
+            margin: 0px;
+            padding: 0px;
+            vertical-align: top;
+            overflow: visible;
+            cursor: pointer;
+        }
+        .room_stat{
+            display: none;
+        }
+        .room:hover .tooltip{
+            display: inline-block;
+        }
+        .room:hover{
+            border: 1px solid red;
+        }
+        
+        .door_n{
+            position: absolute;
+            width: 2vmin;
+            height: 10px;
+            background-color: gray;
+            top: -5px;
+            left: 50%;
+            margin-left: -1vmin;
+        }
+        .door_s{
+            position: absolute;
+            width: 2vmin;
+            height: 10px;
+            background-color: gray;
+            bottom: -5px;
+            left: 50%;
+            margin-left: -1vmin;
+        }
+        .door_e{
+            z-index: 3;
+            position: absolute;
+            width: 10px;
+            height: 2vmin;
+            background-color: gray;
+            right: -8px;
+            top: 50%;
+            margin-top: -1vmin;
+        }
+        .door_w{
+            z-index: 3;
+            position: absolute;
+            width: 10px;
+            height: 2vmin;
+            background-color: gray;
+            left: -5px;
+            top: 50%;
+            margin-top: -1vmin;
+        }
+        #controls{
+            color: white;
+            font-size: 15px;
+            width: 100%;
+            padding: 10px;
+        }
+        #stat{
+            color: white;
+            font-size: 15px;
+            width: 100%;
+            
+        }
+        #sidepanel{
+            width: 19vw;
+            position:absolute;
+            right: 0px;
+            top:0px;
+            padding: 0.5vw;
+        }
+        #controls *{
+            font-size: 10px;
+        }
+        #controls input{
+            width: 15vw;
+        }
+        #newbutton{
+            font-size: 15px;
+        }
+        #id{
+            font-size: 30px;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <!-- DOM Elements -->
+    <div id="main-map">
+
+    </div>
+    <div id='sidepanel'>
+        <div id="id"></div>
+        <div id="controls">
+            <button id='newbutton' onclick="new_map()">New Map</button>
+            <p>Map Dimensions:</p>
+            <input id="inp_size" type="range" value="20" min="10" max="50" oninput="this.nextElementSibling.value = this.value + 'x' + this.value">
+            <output>20x20</output>
+        </div>
+        <div id="stat"></div>
+    </div>
+    
+
+
+
+    <!-- Script and API -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script>
+        function get_map(id='default'){
+            
+            document.getElementById("id").innerHTML = "Map #: " + id;
+            document.getElementById("main-map").innerHTML = ""; //could be loading animation
+            
+            $.getJSON('http://coho.home:5000/get_map?id=' + id, function(data) {
+                let wh = Object.keys(data).length; // assume square
+                for(y = 1; y <= wh; y++){
+                    for (x = 1; x <= wh; x++){
+                        let d = document.createElement("div");
+                        d.style.width = "10vmin";
+                        d.style.height = "10vmin";
+
+                        
+
+                        if (data[y] && data[y][x]){ 
+                            d.className = "room";
+
+                            // set up stat event
+                            let stat = document.createElement("div");
+                            stat.innerHTML = data[y][x].description + "<br><br>";
+                            stat.innerHTML += "X: " + data[y][x].x + ", Y: " + data[y][x].y + "<br><br>";
+                            let itm = "Items: ";
+                            for (j in data[y][x]["items"]){
+                                itm += data[y][x]["items"][j] + ", "
+                            }
+                            itm = itm.slice(0, -2) + "."
+                            stat.innerHTML += itm;
+                            d.appendChild(stat);
+
+                            
+
+                            if (data[y][x].doors.n){
+                                let door = document.createElement("div");
+                                door.className = "door_n";
+                                d.appendChild(door);
+                            }
+                            if (data[y][x].doors.s){
+                                let door = document.createElement("div");
+                                door.className = "door_s";
+                                d.appendChild(door);
+                            }
+                            if (data[y][x].doors.e){
+                                let door = document.createElement("div");
+                                door.className = "door_e";
+                                d.appendChild(door);
+                            }
+                            if (data[y][x].doors.w){
+                                let door = document.createElement("div");
+                                door.className = "door_w";
+                                d.appendChild(door);
+                            }
+                        }
+
+
+                        else { d.className = "empty" }
+                        document.getElementById("main-map").appendChild(d)
+                        
+                    }
+                    document.getElementById("main-map").innerHTML += "<br>";
+                    $(".room").mouseover(function(){
+                        document.getElementById("stat").innerHTML = $(this).children(":first")[0].innerHTML;
+                    });
+                }
+            });
+        }
+        function new_map(){
+            let size = document.getElementById("inp_size").value;
+            $.getJSON('http://coho.home:5000/post_map?gen=0&size=' + size, function(data) {
+                get_map(data.id);
+            });
+        }
+        get_map();  
+    </script>
+</body>
+</html>
