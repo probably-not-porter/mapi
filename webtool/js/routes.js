@@ -1,19 +1,21 @@
 const api_url = "http://coho.home:5000";
+let current_map_id = null;
+let current_zoom = 10;
 
-
-function get_map(id='default'){
+function get_map(id='default', zoom=current_zoom){
             
     document.getElementById("id").innerHTML = "Map #" + id;
     document.getElementById("main-map").innerHTML = ""; //could be loading animation
     
     $.getJSON(api_url + '/get_map?id=' + id, function(data) {
+        current_map_id = id;
         let map = data.map;
         let wh = Object.keys(map).length; // assume square
         for(y = 1; y <= wh; y++){
             for (x = 1; x <= wh; x++){
                 let d = document.createElement("div");
-                d.style.width = "10vmin";
-                d.style.height = "10vmin";
+                d.style.width = zoom + "vmin";
+                d.style.height = zoom + "vmin";
 
                 
 
@@ -79,6 +81,22 @@ function new_map(){
         onfail();
     });
 }
+function get_generators(){
+    let size = document.getElementById("inp_size").value;
+    $.getJSON(api_url + '/get_generators', function(data) {
+        for (x in data.gen_list){
+            
+            let opt = document.createElement("option");
+            opt.value = x;
+            opt.innerText = "Generator " + x;
+            console.log(opt)
+            document.getElementById('generator_select').appendChild(opt);
+        }
+    }).fail(function() {
+        onfail();
+    });
+}
+get_generators()
 function onfail(){
     alert("Somethings gone wrong. Check the console (f11) for more information.");
     console.error("## THEYRE JAMMING THE RADAR ## - The API connection failed. Check that the API is running and that the address in the 'routes.js' file is correct.");

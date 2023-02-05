@@ -20,6 +20,7 @@ def get_map_list():
         "map_list": dir_list
     }
     data = jsonify(ob)
+    data.headers.add('Access-Control-Allow-Origin', '*')
     return data
 
 @app.route("/get_generators")
@@ -28,6 +29,7 @@ def get_generators():
         "gen_list": list(range(len(GENERATORS)))
     }
     data = jsonify(ob)
+    data.headers.add('Access-Control-Allow-Origin', '*')
     return data
 
 @app.route('/get_map')

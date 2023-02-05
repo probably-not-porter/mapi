@@ -10,6 +10,10 @@
 </head>
 <body>
     <!-- DOM Elements -->
+    <div id="map-controls">
+        <div class="zoom" onclick="zoomout()">-</div>
+        <div class="zoom" onclick="zoomin()">+</div>
+    </div>
     <div id="main-map">
 
     </div>
@@ -20,10 +24,22 @@
         
         
         <div id="controls">
+            <!-- Map Dimensions -->
             <p>Map Dimensions:</p>
             <input id="inp_size" type="range" value="20" min="10" max="50" oninput="this.nextElementSibling.value = this.value + 'x' + this.value">
-            <output>20x20</output>
-            <button id='newbutton' onclick="new_map()">New Map</button>
+            <output>20x20</output><br>
+
+            <!-- Select Generator -->
+            <label for="generator">Select Generator</label>
+            <select name="generator" id="generator_select">
+            </select>
+            <br><br><br>
+
+            <!-- Buttons -->
+            <button id='newbutton' onclick="new_map()">Generate New Map</button>
+            <button id='newbutton' onclick="alert('download')">Download Map</button>
+
+            
         </div>
         <div id="id"></div>
         <strong>
@@ -36,5 +52,6 @@
     <!-- Script and API -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src='js/routes.js'></script>
+    <script src='js/controls.js'></script>
 </body>
 </html>
