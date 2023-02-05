@@ -15,17 +15,20 @@
     </div>
     <div id='sidepanel'>
         <div style="width: 100%; text-align: center;">
-            <img src="img/mapi_logo.png">
+            <img src="img/mapi_logo.png" style="margin-top: 10px;">
         </div>
         
-        <div id="id"></div>
+        
         <div id="controls">
-            <button id='newbutton' onclick="new_map()">New Map</button>
             <p>Map Dimensions:</p>
             <input id="inp_size" type="range" value="20" min="10" max="50" oninput="this.nextElementSibling.value = this.value + 'x' + this.value">
             <output>20x20</output>
+            <button id='newbutton' onclick="new_map()">New Map</button>
         </div>
+        <div id="id"></div>
+        <strong>
         <div id="stat"></div>
+        </strong>
     </div>
     
 

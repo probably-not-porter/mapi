@@ -28,7 +28,8 @@ def output_json(m,i):
     map_id = ''.join(random.choices(string.ascii_letters, k=7))
     data = {
         "map": m,
-        "items": i
+        "items": i,
+        "entities": [] # to be added
     }
     json_obj = json.dumps(data, indent=4)
     with open("data/" + map_id + "_map.json", "w") as outpath:

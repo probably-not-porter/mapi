@@ -1,9 +1,12 @@
+const api_url = "http://coho.home:5000";
+
+
 function get_map(id='default'){
             
-    document.getElementById("id").innerHTML = "Map #: " + id;
+    document.getElementById("id").innerHTML = "Map #" + id;
     document.getElementById("main-map").innerHTML = ""; //could be loading animation
     
-    $.getJSON('http://coho.home:5000/get_map?id=' + id, function(data) {
+    $.getJSON(api_url + '/get_map?id=' + id, function(data) {
         let map = data.map;
         let wh = Object.keys(map).length; // assume square
         for(y = 1; y <= wh; y++){
@@ -19,8 +22,9 @@ function get_map(id='default'){
 
                     // set up stat event
                     let stat = document.createElement("div");
-                    stat.innerHTML = map[y][x].description + "<br><br>";
-                    stat.innerHTML += "X: " + map[y][x].x + ", Y: " + map[y][x].y + "<br><br>";
+                    stat.innerHTML = "Room " + map[y][x].x + "-" + map[y][x].y + "<br><br>";
+                    stat.innerHTML += map[y][x].description + "<br><br>";
+                    
                     let itm = "Items: ";
                     for (j in map[y][x]["items"]){
                         itm += map[y][x]["items"][j] + ", "
@@ -63,12 +67,20 @@ function get_map(id='default'){
                 document.getElementById("stat").innerHTML = $(this).children(":first")[0].innerHTML;
             });
         }
+    }).fail(function() {
+        onfail();
     });
 }
 function new_map(){
     let size = document.getElementById("inp_size").value;
-    $.getJSON('http://coho.home:5000/post_map?gen=0&size=' + size, function(data) {
+    $.getJSON(api_url + '/post_map?gen=0&size=' + size, function(data) {
         get_map(data.id);
+    }).fail(function() {
+        onfail();
     });
 }
-get_map();  
+function onfail(){
+    alert("Somethings gone wrong. Check the console (f11) for more information.");
+    console.error("## THEYRE JAMMING THE RADAR ## - The API connection failed. Check that the API is running and that the address in the 'routes.js' file is correct.");
+}
+//get_map();  
