@@ -8,7 +8,8 @@ import os
 # Generators 
 # must have a main() function that returns a map object
 import generator_0 as g0
-GENERATORS = [g0.main]   # gN where N is the api reference for /gen, and the index in the list.
+import generator_1 as g1
+GENERATORS = [g0.main, g1.main]   # gN where N is the api reference for /gen, and the index in the list.
 
 app = Flask(__name__)
 

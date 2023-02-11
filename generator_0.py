@@ -1,40 +1,19 @@
+# GENERATOR 0: CELLULAR AUTOMATA
+# https://medium.com/@yvanscher/cellular-automata-how-to-create-realistic-worlds-for-your-game-2a9ec35f5ba9
 
 # IMPORTS
 import random
 import numpy as np
-import json
 import math
 import random
-
-import string
-import random
+import gen_tools as GT
 
 # PARAMS
+VERSION = "v0.2"
 WALL = 0
 FLOOR = 1
 fill_prob = 0.35
 generations = 4
-# PRINT MAP
-def print_map(m):
-    for y in m:
-        printstr = ""
-        for x in y:
-            if x == 1: printstr += "[]"
-            else: printstr += ".."
-        print(printstr)
-
-# OUTPUT JSON
-def output_json(m,i):
-    map_id = ''.join(random.choices(string.ascii_letters, k=7))
-    data = {
-        "map": m,
-        "items": i,
-        "entities": [] # to be added
-    }
-    json_obj = json.dumps(data, indent=4)
-    with open("data/" + map_id + "_map.json", "w") as outpath:
-        outpath.write(json_obj)
-    return map_id
 
 # CELLULAR AUTOMATA GENERATOR
 def gen_map(shape):
@@ -69,7 +48,16 @@ def gen_map(shape):
             row.append(char)
         #print()
         outmap.append(row)
-    return outmap
+
+    room_obj = {}
+    for y in range(len(outmap)):
+        for x in range(len(outmap[y])):
+            if outmap[y][x] == 1:
+                room = create_room(x,y,outmap,gen_item_occurance())
+                if (room["doors"]["n"] == True or room["doors"]["s"] == True or room["doors"]["e"] == True or room["doors"]["w"] == True):
+                    if y not in room_obj: room_obj[y] = {}
+                    room_obj[y][x] = room
+    return room_obj
 
 # Description creation
 def gen_description(x,y,doors):
@@ -204,16 +192,12 @@ def create_room(x,y,new_map,occ):
     return new_room
 
 def main(size):
-    room_list = {}
-    new_map = gen_map((size, size))
-    for y in range(len(new_map)):
-        for x in range(len(new_map[y])):
-            if new_map[y][x] == 1:
-                room = create_room(x,y,new_map,gen_item_occurance())
-                if (room["doors"]["n"] == True or room["doors"]["s"] == True or room["doors"]["e"] == True or room["doors"]["w"] == True):
-                    if y not in room_list: room_list[y] = {}
-                    room_list[y][x] = room
-    map_id = output_json(room_list, ITEM_LIST)
+    rooms = gen_map((size, size))
+    meta = { 
+        "version": VERSION,
+        "Generator ID": 0
+    }
+    map_id = GT.output_json(rooms, ITEM_LIST, {}, meta)
     return map_id
 
 if __name__=='__main__':

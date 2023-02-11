@@ -74,8 +74,9 @@ function get_map(id='default', zoom=current_zoom){
     });
 }
 function new_map(){
+    let gen = document.getElementById("generator_select").value;
     let size = document.getElementById("inp_size").value;
-    $.getJSON(api_url + '/post_map?gen=0&size=' + size, function(data) {
+    $.getJSON(api_url + '/post_map?gen=' + gen + '&size=' + size, function(data) {
         get_map(data.id);
     }).fail(function() {
         onfail();
