@@ -59,7 +59,7 @@ body{
     position: absolute;
     width: 2vmin;
     height: 10px;
-    background-color: gray;
+    background-color: rgb(57, 235, 95);
     top: -5px;
     left: 50%;
     margin-left: -1vmin;
@@ -68,7 +68,7 @@ body{
     position: absolute;
     width: 2vmin;
     height: 10px;
-    background-color: gray;
+    background-color: rgb(197, 72, 72);
     bottom: -5px;
     left: 50%;
     margin-left: -1vmin;
@@ -78,7 +78,7 @@ body{
     position: absolute;
     width: 10px;
     height: 2vmin;
-    background-color: gray;
+    background-color: rgb(171, 216, 8);
     right: -8px;
     top: 50%;
     margin-top: -1vmin;
@@ -88,7 +88,7 @@ body{
     position: absolute;
     width: 10px;
     height: 2vmin;
-    background-color: gray;
+    background-color: rgb(31, 18, 212);
     left: -5px;
     top: 50%;
     margin-top: -1vmin;

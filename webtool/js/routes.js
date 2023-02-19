@@ -31,6 +31,14 @@ function get_map(id='default', zoom=current_zoom){
                     for (j in map[y][x]["items"]){
                         itm += map[y][x]["items"][j] + ", "
                     }
+                    stat.innerHTML += "Doors: ";
+                    stat.innerHTML += "n=" + map[y][x].doors.n + ", ";
+                    stat.innerHTML += "s=" + map[y][x].doors.s + ", ";
+                    stat.innerHTML += "e=" + map[y][x].doors.e + ", ";
+                    stat.innerHTML += "w=" + map[y][x].doors.w + "<br>";
+
+
+
                     itm = itm.slice(0, -2) + "."
                     stat.innerHTML += itm;
                     d.appendChild(stat);

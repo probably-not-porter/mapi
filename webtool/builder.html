@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Map Builder</title>
+    <link rel="icon" type="image/x-icon" href="img/favicon.png">
+    <link rel="stylesheet" href="css/main.css">
+    <style>
+        .row{
+            width: 100%;
+            background-color: red;
+            height: 100px;
+        }
+        .room{
+            width: 100px;
+            height: 100px;
+            background-color: blue;
+        }
+    </style>
+</head>
+<body>
+    <!-- DOM Elements -->
+    <div id="map-controls">
+        <div class="zoom" onclick="zoomout()">-</div>
+        <div class="zoom" onclick="zoomin()">+</div>
+    </div>
+    <div id="main-map">
+
+    </div>
+    <div id='sidepanel'>
+        <div style="width: 100%; text-align: center;font-size: 20px;color: white;">
+            <img src="img/mapi_logo.png" style="margin-top: 10px;">
+            Builder
+        </div>
+        
+        
+        <div id="controls">
+            <!-- Buttons -->
+            <button id='newbutton' onclick="alert('download')">Download Map</button>
+
+            
+        </div>
+        <div id="id"></div>
+        <strong>
+        <div id="stat"></div>
+        </strong>
+        <script>
+            let size = 20;
+            let map  = []
+            for (y=0;y<size;y++){
+                let row = []
+                for (x=0;x<size;x++){
+                    row.push({
+                        "x": x,
+                        "y": y,
+                        "description": "Room description (minus items)",
+                        "items": [],
+                        "entities": [],
+                        "doors": {
+                            "w": false,
+                            "e": false,
+                            "n": false,
+                            "s": false
+                        }
+                    })
+                }
+                map.push(row);
+            }
+            console.log(map);
+
+            function rendermap(map){
+                const parent = document.getElementById("main-map");
+                for (row in map){
+                    let row_div = document.createElement('div');
+                    row_div.className = "row";
+                    for (room in map[row]){
+                        let room_div = document.createElement('div');
+                        room_div.className = "room";
+                        row_div.appendChild(room_div);
+                        console.log('room')
+                    }
+                    parent.append(row_div);
+                }
+            }
+            rendermap(map)
+        </script>
+    </div>
+</body>
+</html>
