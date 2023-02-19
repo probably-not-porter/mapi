@@ -1,51 +1,11 @@
 # <img src="webtool/img/mapi_logo.png">
-### <img src="webtool/img/favicon.png"><img src="webtool/img/favicon.png"><img src="webtool/img/favicon.png"> Flask Worldgen API <img src="webtool/img/favicon.png"><img src="webtool/img/favicon.png"><img src="webtool/img/favicon.png">
+A collection of tools for map creation and generation.
 
-## Endpoints
-- `http://[HOSTNAME]:5000/post_map?gen=[GENERATOR]&size=[SIZE]`
-- `http://[HOSTNAME]:5000/get_map?id=[MAPID]`
-- `http://[HOSTNAME]:5000/get_generators`
-- `http://[HOSTNAME]:5000/get_map_list`
+## WebTool
+Interface with the API and create custom maps with an interface.
 
-## Generators
-`generator.main(size)` - Writes a map file (`abcd_map.json`) and returns an id (`abcd`) to the API.
+## Generator API
+Generate unique maps and provide file endpoints.
 
-## Map files
-```json
-{
-    "map": {
-        "1": {      // y coordinate
-            "2": {      // x coordinate (contains room)
-                "x": 2,
-                "y": 1,
-                "description": "room description (Minus items)",
-                "items": [ // references for items in room
-                    "[itemID]", "[itemID]", "[itemID]" 
-                ],
-                "entities": [ // references for entities in room
-                    "[entityID]","[entityID]","[entityID]" 
-                ],
-                "doors": { // openings into adjacent rooms
-                    "n": false, "s": true, "e": false, "w": false
-                }
-            },
-    },
-    "items": {
-        "1":{
-            "name": "Item Name",
-            "id": "Item ID",
-            "appearance": "Item appearance",
-            "visibility": "Item visibility",
-            "description": "Item Description",
-            "sprite": "Sprite Reference",
-            "volume": 1.1,
-            "weight": 7.5,
-            "visibility": 1.0,
-            "max_quantity": 4
-        }
-    },
-    "entities": {
-
-    }
-}
-```
+## Item Dataset
+Standard item definitions and sprites.
