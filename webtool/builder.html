@@ -8,6 +8,9 @@
     <link rel="icon" type="image/x-icon" href="img/favicon.png">
     <link rel="stylesheet" href="css/main.css">
     <style>
+        h2{
+            font-size: 21px !important;
+        }
         .row{
             width: 100%;
             background-color: red;
@@ -17,6 +20,18 @@
             width: 100px;
             height: 100px;
             background-color: blue;
+        }
+        #controls input{
+            width: auto;
+        }
+        #controls *{
+            font-size: 15px;
+        }
+        .room:hover{
+            border: 1px solid rgba(255, 0, 0, 0.5);
+        }
+        .selected{
+            border: 1px dashed red !important;
         }
     </style>
 </head>
@@ -39,6 +54,27 @@
         <div id="controls">
             <!-- Buttons -->
             <button id='newbutton' onclick="alert('download')">Download Map</button>
+            <br><br>
+
+            <h2 id="name">Room ?</h2>
+            <label for="description">Description:</label><br>
+            <textarea id="description" name="description" rows="4" cols="50"></textarea>
+            <br>
+            <label for="items">Items:</label><br>
+            <textarea id="items" name="items" rows="2" cols="50"></textarea>
+            <br>
+            <label for="entities">Entities:</label><br>
+            <textarea id="entities" name="entities" rows="2" cols="50"></textarea>
+            <br>
+            <p>Doors:</p>
+            <input type="checkbox" id="door-n" name="door-n" value="door-n">
+            <label for="door-n"> Door North</label>
+            <input type="checkbox" id="door-s" name="door-s" value="door-s">
+            <label for="door-s"> Door South</label><br>
+            <input type="checkbox" id="door-e" name="door-e" value="door-e">
+            <label for="door-e"> Door East</label>
+            <input type="checkbox" id="door-w" name="door-w" value="door-w">
+            <label for="door-w"> Door West</label><br>
 
             
         </div>
@@ -48,16 +84,17 @@
         </strong>
         <script>
             let size = 20;
-            let map  = []
+            let map  = [];
+            let selected = null;
             for (y=0;y<size;y++){
                 let row = []
                 for (x=0;x<size;x++){
                     row.push({
                         "x": x,
                         "y": y,
-                        "description": "Room description (minus items)",
-                        "items": [],
-                        "entities": [],
+                        "description": "Starting description...",
+                        "items": [1,1,1],
+                        "entities": [1,1,1],
                         "doors": {
                             "w": false,
                             "e": false,
@@ -70,6 +107,25 @@
             }
             console.log(map);
 
+            function select(e){
+                if (selected){ selected.classList.remove("selected") }
+                selected = e.target;
+                if (selected){ selected.classList.add("selected") }
+
+                let x = e.target.getAttribute("data-x");
+                let y = e.target.getAttribute("data-y");
+                let room = map[y][x];
+                document.getElementById("description").innerText = room.description;
+                document.getElementById("items").innerText = room.items;
+                document.getElementById("entities").innerText = room.entities;
+                document.getElementById("door-n").checked = room.doors.n;
+                document.getElementById("door-s").checked = room.doors.s;
+                document.getElementById("door-e").checked = room.doors.e;
+                document.getElementById("door-w").checked = room.doors.w;
+                document.getElementById("name").innerText = "Room X:" + room.x + ", Y:" + room.y;
+
+            }
+
             function rendermap(map){
                 const parent = document.getElementById("main-map");
                 for (row in map){
@@ -78,8 +134,10 @@
                     for (room in map[row]){
                         let room_div = document.createElement('div');
                         room_div.className = "room";
+                        room_div.addEventListener("click", select, false);
+                        room_div.setAttribute("data-x", map[row][room].x);
+                        room_div.setAttribute("data-y", map[row][room].y)
                         row_div.appendChild(room_div);
-                        console.log('room')
                     }
                     parent.append(row_div);
                 }
