@@ -3,21 +3,9 @@
 
 # IMPORTS
 import random
-import numpy as np
-import math
-import random
-import map_gen.gen_tools as GT
-import json
 
 # PARAMS
-VERSION = "v0.1"
 ROOMS = {}
-ITEMS = {}
-ENTITIES = {}
-META = { 
-    "version": VERSION,
-    "Generator ID": 1
-}
 
 class Cell:
     """Cell class that defines each walkable Cell on the grid"""

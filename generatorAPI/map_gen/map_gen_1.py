@@ -4,9 +4,7 @@
 # IMPORTS
 import random
 import numpy as np
-import math
 import random
-import map_gen.gen_tools as GT
 
 # PARAMS
 WALL = 0

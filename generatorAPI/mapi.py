@@ -5,7 +5,7 @@ import os
 
 # Generators 
 # must have a main() function that returns a map object
-import map_gen.gen_tools as GT
+import gen_tools as GT
 import map_gen.map_gen_1 as m1
 import map_gen.map_gen_2 as m2
 import map_gen.map_gen_3 as m3
@@ -68,8 +68,12 @@ def generate_map():
     entity_generator = ENTITY_GENERATORS[int(entity_gen)][0]
 
     rooms = map_generator.main(int(input_size)) # size, item generator, entity generator
-    items = item_generator.main(rooms)
+
+    rooms = item_generator.populate(rooms)
+    items = item_generator.load()
+
     entities = entity_generator.main(rooms)
+    
     meta = {
         "map_generator": map_generator.meta(),
         "item_generator": item_generator.meta(),
