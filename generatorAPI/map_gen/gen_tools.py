@@ -17,6 +17,7 @@ def output_json(m = {},i = {}, e = {}, meta = {}):
     map_id = ''.join(random.choices(string.ascii_letters, k=7))
     now = datetime.now()
     meta["timestring"] = now.strftime("%d/%m/%Y %H:%M:%S")
+    meta["id"] = map_id
 
     data = {
         "map": m,

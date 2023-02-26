@@ -116,3 +116,6 @@ def main(size):
 
 if __name__=='__main__':
     main()
+
+def meta():
+    return "DFS Generator (id-2) - v0"

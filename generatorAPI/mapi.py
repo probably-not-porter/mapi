@@ -13,15 +13,15 @@ import item_gen.item_gen_1 as i1
 import entity_gen.entity_gen_1 as e1
 
 MAP_GENERATORS = [  # gN where N is the api reference for /gen, and the index in the list.
-    [m1.main, "Cellular Automata Generator"], 
-    [m3.main, "Prim's Algorithm Generator"],
-    [m2.main, "WIP"]
+    [m1, "Cellular Automata Generator"], 
+    [m3, "Prim's Algorithm Generator"],
+    [m2, "WIP"]
 ]   
 ITEM_GENERATORS = [
-    [i1.main, "Testing Set"]
+    [i1, "Items 1"]
 ]
 ENTITY_GENERATORS = [
-    [e1.main, "Testing Set"]
+    [e1, "Entities 1"]
 ]
 
 app = Flask(__name__)
@@ -67,10 +67,15 @@ def generate_map():
     item_generator = ITEM_GENERATORS[int(item_gen)][0]
     entity_generator = ENTITY_GENERATORS[int(entity_gen)][0]
 
-    rooms = map_generator(int(input_size)) # size, item generator, entity generator
-    items = item_generator(rooms)
-    entities = entity_generator(rooms)
-    map_id = GT.output_json(rooms, items, entities, {"name": "test", "version": "test"})
+    rooms = map_generator.main(int(input_size)) # size, item generator, entity generator
+    items = item_generator.main(rooms)
+    entities = entity_generator.main(rooms)
+    meta = {
+        "map_generator": map_generator.meta(),
+        "item_generator": item_generator.meta(),
+        "entity_generator": entity_generator.meta()
+    }
+    map_id = GT.output_json(rooms, items, entities, meta)
 
 
     data = jsonify({"id":map_id})

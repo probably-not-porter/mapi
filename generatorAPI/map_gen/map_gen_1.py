@@ -9,7 +9,6 @@ import random
 import map_gen.gen_tools as GT
 
 # PARAMS
-VERSION = "v0.2"
 WALL = 0
 FLOOR = 1
 fill_prob = 0.35
@@ -53,7 +52,7 @@ def gen_map(shape):
     for y in range(len(outmap)):
         for x in range(len(outmap[y])):
             if outmap[y][x] == 1:
-                room = create_room(x,y,outmap,gen_item_occurance())
+                room = create_room(x,y,outmap)
                 if (room["doors"]["n"] == True or room["doors"]["s"] == True or room["doors"]["e"] == True or room["doors"]["w"] == True):
                     if y not in room_obj: room_obj[y] = {}
                     room_obj[y][x] = room
@@ -91,102 +90,27 @@ def gen_description(x,y,doors):
     return t
 
 
-# ITEM DEFS (rarity?)
-ITEM_LIST = {
-    "1":{
-        "name":"Book of Summoning",
-        "rarity": 5
-    },
-    "2":{
-        "name":"Book of The Damned",
-        "rarity": 5
-    },
-    "100":{
-        "name":"The One Ring",
-        "rarity": 5
-    },
-    "3":{
-        "name":"Small Health Potion",
-        "rarity": 1
-    },
-    "4":{
-        "name":"Medium Health Potion",
-        "rarity": 2
-    },
-    "5":{
-        "name":"Large Health Potion",
-        "rarity": 3
-    },
-    "6":{
-        "name":"Wooden Arrow",
-        "rarity": 1
-    },
-    "7":{
-        "name":"Steel Knife",
-        "rarity": 1
-    },
-    "8":{
-        "name":"Health Potion6",
-        "rarity": 1
-    },
-    "9":{
-        "name":"Health Potion7",
-        "rarity": 1
-    }
-}
-def gen_item_occurance():
-    occurance_out = []
-    occurance_rates = {
-        0: 1,
-        1: 200,
-        2: 40,
-        3: 10,
-        4: 5,
-        5: 1
-    }
-    for key in ITEM_LIST:
-        for x in range(occurance_rates[ITEM_LIST[key]["rarity"]]):
-            occurance_out.append(ITEM_LIST[key]["name"])
-    random.shuffle(occurance_out)
-    return occurance_out
 
-# Item creation
-def gen_items(x,y,occ):
-    NUM_ITEMS = random.randint(2,8)
-    ids_out = []
-    for x in range(NUM_ITEMS):
-        item = occ.pop()
-        ids_out.append(item)
-    return ids_out
-
-# Entity creation
-def gen_entities(x,y):
-    return ["default", "default", "default"]
-
-
-# GENERATE AND POPULATE A SINGLE ROOM AT X,Y
-def create_room(x,y,new_map,occ):
+def create_room(x,y,new_map):
     doors = {
         "n": False,
         "s": False,
         "e": False,
         "w": False
     }
-    # DOOR DETECTION
+    # Check if there should be doors at each side
     if y > 1: doors["n"] = (new_map[y-1][x] == 1)
     if y < len(new_map[x]) - 2: doors["s"] = (new_map[y+1][x] == 1)
     if x < len(new_map) - 2: doors["e"] = (new_map[y][x+1] == 1)
     if x > 1: doors["w"] = (new_map[y][x-1] == 1)
-
-    
 
     # Create ROOM OBJECT
     new_room = {
         "x": x,
         "y": y,
         "description": gen_description(x,y,doors),
-        "items": gen_items(x,y,occ),
-        "entities": gen_entities(x,y),
+        "items": [],
+        "entities": [],
         "doors": doors
     }
     return new_room
@@ -194,3 +118,6 @@ def create_room(x,y,new_map,occ):
 def main(size):
     rooms = gen_map((size, size))
     return rooms
+
+def meta():
+    return "Cellular Automata Generator (id-1) - v1"
