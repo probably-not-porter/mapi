@@ -6,7 +6,7 @@ import random
 import numpy as np
 import math
 import random
-import gen_tools as GT
+import map_gen.gen_tools as GT
 import json
 
 # PARAMS
@@ -112,8 +112,7 @@ def gen_map(shape):
 
 def main(size):
     ROOMS = gen_map((size, size))
-    map_id = GT.output_json(ROOMS, ITEMS, ENTITIES, META) # returns filename id
-    return map_id
+    return ROOMS
 
 if __name__=='__main__':
     main()

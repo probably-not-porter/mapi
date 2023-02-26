@@ -3,13 +3,26 @@ from flask import Flask, jsonify, request
 import json
 import os
 
-
-
 # Generators 
 # must have a main() function that returns a map object
-import generator_0 as g0
-import generator_1 as g1
-GENERATORS = [g0.main, g1.main]   # gN where N is the api reference for /gen, and the index in the list.
+import map_gen.gen_tools as GT
+import map_gen.map_gen_1 as m1
+import map_gen.map_gen_2 as m2
+import map_gen.map_gen_3 as m3
+import item_gen.item_gen_1 as i1
+import entity_gen.entity_gen_1 as e1
+
+MAP_GENERATORS = [  # gN where N is the api reference for /gen, and the index in the list.
+    [m1.main, "Cellular Automata Generator"], 
+    [m3.main, "Prim's Algorithm Generator"],
+    [m2.main, "WIP"]
+]   
+ITEM_GENERATORS = [
+    [i1.main, "Testing Set"]
+]
+ENTITY_GENERATORS = [
+    [e1.main, "Testing Set"]
+]
 
 app = Flask(__name__)
 
@@ -27,7 +40,9 @@ def get_map_list():
 @app.route("/get_generators")
 def get_generators():
     ob = {
-        "gen_list": list(range(len(GENERATORS)))
+        "map_generators": list(map(lambda x: x[1:], MAP_GENERATORS)),
+        "item_generators": list(map(lambda x: x[1:], ITEM_GENERATORS)),
+        "entity_generators": list(map(lambda x: x[1:], ENTITY_GENERATORS))
     }
     data = jsonify(ob)
     data.headers.add('Access-Control-Allow-Origin', '*')
@@ -43,11 +58,21 @@ def return_map():
 
 @app.route('/post_map')
 def generate_map():
-    gen = request.args.get('gen')
-    size = request.args.get('size')
-    print(gen, size)
-    #width = request.args.get('width')
-    map_id = GENERATORS[int(gen)](int(size))
+    map_gen = request.args.get('map')
+    item_gen = request.args.get('item')
+    entity_gen = request.args.get('entity')
+    input_size = request.args.get('size')
+
+    map_generator = MAP_GENERATORS[int(map_gen)][0]
+    item_generator = ITEM_GENERATORS[int(item_gen)][0]
+    entity_generator = ENTITY_GENERATORS[int(entity_gen)][0]
+
+    rooms = map_generator(int(input_size)) # size, item generator, entity generator
+    items = item_generator(rooms)
+    entities = entity_generator(rooms)
+    map_id = GT.output_json(rooms, items, entities, {"name": "test", "version": "test"})
+
+
     data = jsonify({"id":map_id})
     data.headers.add('Access-Control-Allow-Origin', '*')
     return data 

@@ -82,9 +82,12 @@ function get_map(id='default', zoom=current_zoom){
     });
 }
 function new_map(){
-    let gen = document.getElementById("generator_select").value;
+    let map_gen = document.getElementById("map_generator_select").value;
+    let item_gen = document.getElementById("item_generator_select").value;
+    let entity_gen = document.getElementById("entity_generator_select").value;
+
     let size = document.getElementById("inp_size").value;
-    $.getJSON(api_url + '/post_map?gen=' + gen + '&size=' + size, function(data) {
+    $.getJSON(api_url + '/post_map?map=' + map_gen + '&item=' + item_gen + '&entity=' + entity_gen + '&size=' + size, function(data) {
         get_map(data.id);
     }).fail(function() {
         onfail();
@@ -93,14 +96,26 @@ function new_map(){
 function get_generators(){
     let size = document.getElementById("inp_size").value;
     $.getJSON(api_url + '/get_generators', function(data) {
-        for (x in data.gen_list){
-            
+        console.log(data);
+        for (x = 0; x < data.map_generators.length; x++){
             let opt = document.createElement("option");
             opt.value = x;
-            opt.innerText = "Generator " + x;
-            console.log(opt)
-            document.getElementById('generator_select').appendChild(opt);
+            opt.innerText = data.map_generators[x];
+            document.getElementById('map_generator_select').appendChild(opt);
         }
+        for (x = 0; x < data.item_generators.length; x++){
+            let opt = document.createElement("option");
+            opt.value = x;
+            opt.innerText = data.item_generators[x];
+            document.getElementById('item_generator_select').appendChild(opt);
+        }
+        for (x = 0; x < data.entity_generators.length; x++){
+            let opt = document.createElement("option");
+            opt.value = x;
+            opt.innerText = data.entity_generators[x];
+            document.getElementById('entity_generator_select').appendChild(opt);
+        }
+
     }).fail(function() {
         onfail();
     });

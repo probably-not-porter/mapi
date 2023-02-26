@@ -6,7 +6,7 @@ import random
 import numpy as np
 import math
 import random
-import gen_tools as GT
+import map_gen.gen_tools as GT
 
 # PARAMS
 VERSION = "v0.2"
@@ -193,12 +193,4 @@ def create_room(x,y,new_map,occ):
 
 def main(size):
     rooms = gen_map((size, size))
-    meta = { 
-        "version": VERSION,
-        "Generator ID": 0
-    }
-    map_id = GT.output_json(rooms, ITEM_LIST, {}, meta)
-    return map_id
-
-if __name__=='__main__':
-    main()
+    return rooms

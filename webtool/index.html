@@ -27,11 +27,19 @@
             <!-- Map Dimensions -->
             <p>Map Dimensions:</p>
             <input id="inp_size" type="range" value="20" min="10" max="50" oninput="this.nextElementSibling.value = this.value + 'x' + this.value">
-            <output>20x20</output><br>
+            <output>20x20</output><br><br>
 
             <!-- Select Generator -->
-            <label for="generator">Select Generator</label>
-            <select name="generator" id="generator_select">
+            <label for="map_generator">Select Map Generator</label>
+            <select name="map_generator" id="map_generator_select">
+            </select>
+            <br><br>
+            <label for="item_generator">Select Item Generator</label>
+            <select name="item_generator" id="item_generator_select">
+            </select>
+            <br><br>
+            <label for="entity_generator">Select Entity Generator</label>
+            <select name="entity_generator" id="entity_generator_select">
             </select>
             <br><br><br>
 
