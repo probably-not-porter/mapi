@@ -1,6 +1,6 @@
 # MAPI - Worldgen API 
 ## Endpoints
-- `http://[HOSTNAME]:5000/post_map?gen=[GENERATOR]&size=[SIZE]`
+- `http://[HOSTNAME]:5000/post_map?map=[MAP_GENERATOR]&item=[ITEM_GENERATOR]&entity=[ENTITY_GENERATOR]&size=[SIZE]`
 - `http://[HOSTNAME]:5000/get_map?id=[MAPID]`
 - `http://[HOSTNAME]:5000/get_generators`
 - `http://[HOSTNAME]:5000/get_map_list`
@@ -38,12 +38,15 @@
             "sprite": "Sprite Reference",
             "volume": 1.1,
             "weight": 7.5,
-            "visibility": 1.0,
-            "max_quantity": 4
+            "max_quantity": 4,
+            "rarity": 1
         }
     },
     "entities": {
 
+    },
+    "meta{
+        // meta information from generators
     }
 }
 ```

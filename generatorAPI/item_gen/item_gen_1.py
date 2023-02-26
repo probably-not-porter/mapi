@@ -1,7 +1,7 @@
 import csv
 import random
 
-ITEM_URL = '../items/items.csv'
+ITEM_URL = '../item_data/items.csv'
 ITEM_MIN = 1
 ITEM_MAX = 5
 
