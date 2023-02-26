@@ -18,7 +18,7 @@ MAP_GENERATORS = [  # gN where N is the api reference for /gen, and the index in
     [m2, "WIP"]
 ]   
 ITEM_GENERATORS = [
-    [i1, "Items 1"]
+    [i1, "Basic Random Item Gen"]
 ]
 ENTITY_GENERATORS = [
     [e1, "Entities 1"]
