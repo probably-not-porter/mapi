@@ -5,10 +5,79 @@
 - `http://[HOSTNAME]:5000/get_generators`
 - `http://[HOSTNAME]:5000/get_map_list`
 
-## Generators
-`generator.main(size)` - Writes a map file (`abcd_map.json`) and returns an id (`abcd`) to the API.
+## Map Gen
+Map generators generate the actual "maze" structure of a map file.
 
-## Map files
+Must have the following functions:
+```py
+def main(size):
+    return {ROOMS}
+def meta():
+    return "META STRING"
+```
+Must output the following object:
+```json
+{
+    "1":{
+        "1":{ROOM},
+        "2":{ROOM}
+    },
+    "2":{
+        "1":{ROOM},
+        "2":{ROOM}
+    }
+}
+```
+
+## Item Gen
+Item generators create a set of items for the map, as well as placing items in each of the rooms.
+
+Must have the following functions:
+```py
+def populate({ROOMS}):
+    return {ROOMS WITH ITEMS}
+
+def meta():
+    return "META STRING"
+
+def load():
+    return {ITEMS}
+
+```
+Must output the following object:
+```json
+{
+    "1":{ITEM},
+    "2":{ITEM},
+    "3":{ITEM}
+}
+```
+
+## Entity Gen
+Entity generators create a set of entities for the map, as well as placing entities in each of the rooms.
+
+Must have the following functions:
+```py
+def populate({ROOMS}):
+    return {ROOMS WITH ENTITIES}
+
+def meta():
+    return "META STRING"
+
+def load():
+    return {ENTITIES}
+
+```
+Must output the following object:
+```json
+{
+    "1":{ENTITIES},
+    "2":{ENTITIES},
+    "3":{ENTITIES}
+}
+```
+
+## Map files (Map + Items + Entities + Meta)
 ```json
 {
     "map": {

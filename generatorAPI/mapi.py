@@ -72,8 +72,9 @@ def generate_map():
     rooms = item_generator.populate(rooms)
     items = item_generator.load()
 
-    entities = entity_generator.main(rooms)
-    
+    rooms = entity_generator.populate(rooms)
+    entities = entity_generator.load()
+
     meta = {
         "map_generator": map_generator.meta(),
         "item_generator": item_generator.meta(),

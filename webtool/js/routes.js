@@ -31,6 +31,12 @@ function get_map(id='default', zoom=current_zoom){
                     for (j in map[y][x]["items"]){
                         itm += map[y][x]["items"][j] + ", "
                     }
+
+                    let ent = "Entities: ";
+                    for (j in map[y][x]["entities"]){
+                        ent += map[y][x]["entities"][j] + ", "
+                    }
+
                     stat.innerHTML += "Doors: ";
                     stat.innerHTML += "n=" + map[y][x].doors.n + ", ";
                     stat.innerHTML += "s=" + map[y][x].doors.s + ", ";
@@ -40,7 +46,11 @@ function get_map(id='default', zoom=current_zoom){
 
 
                     itm = itm.slice(0, -2) + "."
+                    ent = ent.slice(0, -2) + "."
+                    stat.innerHTML += "<br><br>";
                     stat.innerHTML += itm;
+                    stat.innerHTML += "<br><br>";
+                    stat.innerHTML += ent;
                     d.appendChild(stat);
 
                     
