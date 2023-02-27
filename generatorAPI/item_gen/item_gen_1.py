@@ -21,7 +21,6 @@ def gen_item_occurance(items):
             occurance_out.append(itemid)
 
     random.shuffle(occurance_out)
-    print(occurance_out)
     return occurance_out
 
 def load():

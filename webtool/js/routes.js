@@ -29,7 +29,14 @@ function get_map(id='default', zoom=current_zoom){
                     
                     let itm = "Items: ";
                     for (j in map[y][x]["items"]){
-                        itm += map[y][x]["items"][j] + ", "
+                        let item_id = map[y][x]["items"][j];
+
+                        if (data["items"][item_id]){
+                            itm += data["items"][item_id]["name"] + "(" + item_id + "), "
+                        }
+                        else{
+                            itm += item_id + ", "
+                        }
                     }
 
                     let ent = "Entities: ";
