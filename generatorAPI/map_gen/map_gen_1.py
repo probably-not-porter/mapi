@@ -114,6 +114,7 @@ def create_room(x,y,new_map):
     return new_room
 
 def main(size):
+    print("--> Generating rooms (map_gen_1)")
     rooms = gen_map((size, size))
     return rooms
 

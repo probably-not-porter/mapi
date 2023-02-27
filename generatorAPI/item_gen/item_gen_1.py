@@ -24,6 +24,7 @@ def gen_item_occurance(items):
     return occurance_out
 
 def load():
+    print("--> Load Items from CSV (item_gen_1)")
     ITEMS = {
     }
 
@@ -49,6 +50,7 @@ def load():
     return ITEMS
 
 def populate(rooms):
+    print("--> Populate room with items (item_gen_1)")
     ITEMS = load()
     occurances = gen_item_occurance(ITEMS)
 

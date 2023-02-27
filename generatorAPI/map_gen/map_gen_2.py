@@ -99,6 +99,7 @@ def gen_map(shape):
     return map_obj
 
 def main(size):
+    print("--> Generating rooms (map_gen_2)")
     ROOMS = gen_map((size, size))
     return ROOMS
 

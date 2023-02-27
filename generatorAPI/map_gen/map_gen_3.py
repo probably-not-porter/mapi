@@ -119,6 +119,7 @@ class Maze:
                 s.add(f)
 
 def main(size):
+    print("--> Generating rooms (map_gen_3)")
     ROOMS = gen_map(size)
     return ROOMS
 
