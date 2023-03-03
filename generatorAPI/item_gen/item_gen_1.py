@@ -5,15 +5,15 @@ ITEM_URL = '../item_data/items.csv'
 ITEM_MIN = 1
 ITEM_MAX = 5
 
-def gen_item_occurance(items):
+def gen_item_occurance(items, size):
     occurance_out = []
     occurance_rates = {
-        0: 1,
-        1: 200,
-        2: 40,
-        3: 10,
-        4: 5,
-        5: 1
+        0: 1 * size,
+        1: 200 * size,
+        2: 40 * size,
+        3: 10 * size,
+        4: 5 * size,
+        5: 1 * size
     }
     for itemid, itemval in items.items():
         occ = occurance_rates[int(itemval["rarity"])]
@@ -49,10 +49,10 @@ def load():
                 header = False
     return ITEMS
 
-def populate(rooms):
+def populate(rooms, size):
     print("--> Populate room with items (item_gen_1)")
     ITEMS = load()
-    occurances = gen_item_occurance(ITEMS)
+    occurances = gen_item_occurance(ITEMS, size)
 
     for y, yval in rooms.items():
         for x, xval in yval.items():

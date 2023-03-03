@@ -6,38 +6,42 @@ import random
 import numpy as np
 import random
 from PIL import Image, ImageColor
+from tqdm import tqdm
 
 def gen_map(size):
     ROOMS = {}
     m = Maze(size, size, animate=False)
-
-    for y in range(size):
-        ROOMS[y] = {}
-        for x in range(size):
-            if m.grid[x][y] == True:
-                c = {
-                    "x": x,
-                    "y": y,
-                    "description": "sample desc",
-                    "items": [1,2,3,4],
-                    "entities": [1,2,3,4],
-                    "doors": {
-                        "n": False,
-                        "s": False,
-                        "e": False,
-                        "w": False
+    with tqdm(total=size*size) as pbar:
+        print("----> Create cells")
+        for y in range(size):
+            ROOMS[y] = {}
+            for x in range(size):
+                pbar.update(1)
+                
+                if m.grid[x][y] == True:
+                    c = {
+                        "x": x,
+                        "y": y,
+                        "description": "sample desc",
+                        "items": [1,2,3,4],
+                        "entities": [1,2,3,4],
+                        "doors": {
+                            "n": False,
+                            "s": False,
+                            "e": False,
+                            "w": False
+                        }
                     }
-                }
-                if y > 1:
-                    if m.grid[x][y-1] == True: c["doors"]["n"] = True
-                if y < size-1:
-                    if m.grid[x][y+1] == True: c["doors"]["s"] = True
-                if x < size-1:
-                    if m.grid[x+1][y] == True: c["doors"]["e"] = True
-                if x > 1:
-                    if m.grid[x-1][y] == True: c["doors"]["w"] = True
+                    if y > 1:
+                        if m.grid[x][y-1] == True: c["doors"]["n"] = True
+                    if y < size-1:
+                        if m.grid[x][y+1] == True: c["doors"]["s"] = True
+                    if x < size-1:
+                        if m.grid[x+1][y] == True: c["doors"]["e"] = True
+                    if x > 1:
+                        if m.grid[x-1][y] == True: c["doors"]["w"] = True
 
-                ROOMS[y][x] = c
+                    ROOMS[y][x] = c
     
 
     return ROOMS

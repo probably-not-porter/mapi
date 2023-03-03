@@ -5,6 +5,7 @@
 import random
 import numpy as np
 import random
+from tqdm import tqdm
 
 # PARAMS
 WALL = 0
@@ -14,12 +15,16 @@ generations = 4
 
 # CELLULAR AUTOMATA GENERATOR
 def gen_map(shape):
+    
     new_map = np.ones(shape)
-    for i in range(shape[0]):
+    print("----> Create grid")
+    for i in tqdm(range(shape[0])):
         for j in range(shape[1]):
             choice = random.uniform(0, 1)
             new_map[i][j] = WALL if choice < fill_prob else FLOOR
-    for generation in range(generations):
+
+    print("----> Run cellular automata generations")
+    for generation in tqdm(range(generations)):
         for i in range(shape[0]):
             for j in range(shape[1]):
                 submap = new_map[max(i-1, 0):min(i+2, new_map.shape[0]),max(j-1, 0):min(j+2, new_map.shape[1])]
@@ -37,7 +42,8 @@ def gen_map(shape):
                     else:
                         new_map[i][j] = FLOOR
     outmap = []
-    for i in range(new_map.shape[0]):
+    print("----> Create output map")
+    for i in tqdm(range(new_map.shape[0])):
         row = []
         for j in range(new_map.shape[1]):
             char = 0 if new_map[i][j] == WALL else 1
@@ -45,9 +51,9 @@ def gen_map(shape):
             row.append(char)
         #print()
         outmap.append(row)
-
     room_obj = {}
-    for y in range(len(outmap)):
+    print("----> Create door connections")
+    for y in tqdm(range(len(outmap))):
         for x in range(len(outmap[y])):
             if outmap[y][x] == 1:
                 room = create_room(x,y,outmap)

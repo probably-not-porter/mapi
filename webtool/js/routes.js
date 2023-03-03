@@ -1,15 +1,16 @@
 const api_url = "http://coho.home:5000";
-let current_map_id = null;
-let current_zoom = 10;
 
-function get_map(id='default', zoom=current_zoom){
+let current_map_id = null;
+let current_zoom = 8;
+
+function get_map(id=0, zoom=current_zoom){
             
     document.getElementById("id").innerHTML = "Map #" + id;
     document.getElementById("main-map").innerHTML = ""; //could be loading animation
     
     $.getJSON(api_url + '/get_map?id=' + id, function(data) {
         console.info("--> Successfully retreived map.", data);
-        render_map(data, zoom)
+        render_map(data, zoom, id)
     }).fail(function() {
         onfail();
     });

@@ -69,7 +69,7 @@ def generate_map():
 
     rooms = map_generator.main(int(input_size)) # size, item generator, entity generator
 
-    rooms = item_generator.populate(rooms)
+    rooms = item_generator.populate(rooms, int(input_size))
     items = item_generator.load()
 
     rooms = entity_generator.populate(rooms)
