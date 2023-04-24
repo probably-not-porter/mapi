@@ -1,5 +1,5 @@
 from datetime import date
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, render_template
 import json
 import os
 
@@ -87,6 +87,15 @@ def generate_map():
     data.headers.add('Access-Control-Allow-Origin', '*')
     return data 
 
+# WEB ROUTES
+@app.route("/")
+def serve_home():
+    return render_template('index.html')
 
+@app.route("/builder")
+def serve_builder():
+    return render_template('builder.html')
+
+# Start server
 if __name__=='__main__':
     app.run(host="0.0.0.0")

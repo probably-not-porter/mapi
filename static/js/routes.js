@@ -1,4 +1,4 @@
-const api_url = "http://coho.home:5000";
+const api_url = "http://discus.home:5000";
 
 let current_map_id = null;
 let current_zoom = 8;
