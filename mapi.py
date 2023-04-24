@@ -12,6 +12,8 @@ import map_gen.map_gen_3 as m3
 import item_gen.item_gen_1 as i1
 import entity_gen.entity_gen_1 as e1
 
+app = Flask(__name__)
+
 MAP_GENERATORS = [  # gN where N is the api reference for /gen, and the index in the list.
     [m1, "Cellular Automata Generator"], 
     [m3, "Prim's Algorithm Generator"],
@@ -23,8 +25,6 @@ ITEM_GENERATORS = [
 ENTITY_GENERATORS = [
     [e1, "Entities 1"]
 ]
-
-app = Flask(__name__)
 
 @app.route("/get_map_list")
 def get_map_list():
