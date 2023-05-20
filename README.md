@@ -88,8 +88,8 @@ Must output the following object:
 ```json
 {
     "map": {
-        "1": {      // y coordinate
-            "2": {      // x coordinate (contains room)
+        "1": {      // x coordinate
+            "2": {      // y coordinate (contains room)
                 "x": 2,
                 "y": 1,
                 "description": "room description (Minus items)",
@@ -105,23 +105,23 @@ Must output the following object:
             },
     },
     "items": {
-        "1":{
+        "1":{ // item id (used as key)
             "name": "Item Name",
-            "id": "Item ID",
+            "id": "Item ID", // same as key
             "appearance": "Item appearance",
             "visibility": "Item visibility",
             "description": "Item Description",
             "sprite": "Sprite Reference",
-            "volume": 1.1,
-            "weight": 7.5,
+            "volume": 1.1, // volume in m^3? cm^3?
+            "weight": 7.5, // weight in kg
             "max_quantity": 4,
             "rarity": 1
         }
     },
     "entities": {
-
+        // To Do
     },
-    "meta{
+    "meta":{
         // meta information from generators
     }
 }

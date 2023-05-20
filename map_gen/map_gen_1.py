@@ -58,8 +58,8 @@ def gen_map(shape):
             if outmap[y][x] == 1:
                 room = create_room(x,y,outmap)
                 if (room["doors"]["n"] == True or room["doors"]["s"] == True or room["doors"]["e"] == True or room["doors"]["w"] == True):
-                    if y not in room_obj: room_obj[y] = {}
-                    room_obj[y][x] = room
+                    if x not in room_obj: room_obj[x] = {}
+                    room_obj[x][y] = room
     return room_obj
 
 # Description creation
