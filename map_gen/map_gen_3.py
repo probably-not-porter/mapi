@@ -13,9 +13,9 @@ def gen_map(size):
     m = Maze(size, size, animate=False)
     with tqdm(total=size*size) as pbar:
         print("----> Create cells")
-        for y in range(size):
-            ROOMS[y] = {}
-            for x in range(size):
+        for x in range(size):
+            ROOMS[x] = {}
+            for y in range(size):
                 pbar.update(1)
                 
                 if m.grid[x][y] == True:
@@ -41,7 +41,7 @@ def gen_map(size):
                     if x > 1:
                         if m.grid[x-1][y] == True: c["doors"]["w"] = True
 
-                    ROOMS[y][x] = c
+                    ROOMS[x][y] = c
     
 
     return ROOMS
