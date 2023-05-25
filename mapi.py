@@ -8,16 +8,16 @@ import os
 import gen_tools as GT
 import map_gen.map_gen_1 as m1
 import map_gen.map_gen_2 as m2
-import map_gen.map_gen_3 as m3
+
 import item_gen.item_gen_1 as i1
+
 import entity_gen.entity_gen_1 as e1
 
 app = Flask(__name__)
 
 MAP_GENERATORS = [  # gN where N is the api reference for /gen, and the index in the list.
     [m1, "Cellular Automata Generator"], 
-    [m3, "Prim's Algorithm Generator"],
-    [m2, "WIP"]
+    [m2, "Prims Algorithm Generator"]
 ]   
 ITEM_GENERATORS = [
     [i1, "Basic Random Item Gen"]
@@ -50,8 +50,8 @@ def get_generators():
 
 @app.route('/get_map')
 def return_map():
-    id = request.args.get('id')
-    f = open("data/" + id + '_map.json')
+    mapid = request.args.get('id')
+    f = open("data/" + mapid + '_map.json')
     data = jsonify(json.load(f))
     data.headers.add('Access-Control-Allow-Origin', '*')
     return data 
@@ -98,4 +98,4 @@ def serve_builder():
 
 # Start server
 if __name__=='__main__':
-    app.run(host="0.0.0.0")
+    app.run(host="0.0.0.0",port=4602)
