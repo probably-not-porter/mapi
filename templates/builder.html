@@ -33,6 +33,18 @@
         .selected{
             border: 1px dashed red !important;
         }
+        .door_n{
+            background-color: blue;
+        }
+        .door_s{
+            background-color: blue;
+        }
+        .door_e{
+            background-color: blue;
+        }
+        .door_w{
+            background-color: blue;
+        }
     </style>
 </head>
 <body>
@@ -58,22 +70,22 @@
 
             <h2 id="name">Room ?</h2>
             <label for="description">Description:</label><br>
-            <textarea id="description" name="description" rows="4" cols="50"></textarea>
+            <textarea onchange="save()" id="description" name="description" rows="4" cols="50"></textarea>
             <br>
             <label for="items">Items:</label><br>
-            <textarea id="items" name="items" rows="2" cols="50"></textarea>
+            <textarea onchange="save()" id="items" name="items" rows="2" cols="50"></textarea>
             <br>
             <label for="entities">Entities:</label><br>
-            <textarea id="entities" name="entities" rows="2" cols="50"></textarea>
+            <textarea onchange="save()" id="entities" name="entities" rows="2" cols="50"></textarea>
             <br>
             <p>Doors:</p>
-            <input type="checkbox" id="door-n" name="door-n" value="door-n">
+            <input onchange="save()" type="checkbox" id="door-n" name="door-n" value="door-n">
             <label for="door-n"> Door North</label>
-            <input type="checkbox" id="door-s" name="door-s" value="door-s">
+            <input onchange="save()" type="checkbox" id="door-s" name="door-s" value="door-s">
             <label for="door-s"> Door South</label><br>
-            <input type="checkbox" id="door-e" name="door-e" value="door-e">
+            <input onchange="save()" type="checkbox" id="door-e" name="door-e" value="door-e">
             <label for="door-e"> Door East</label>
-            <input type="checkbox" id="door-w" name="door-w" value="door-w">
+            <input onchange="save()" type="checkbox" id="door-w" name="door-w" value="door-w">
             <label for="door-w"> Door West</label><br>
 
             
@@ -86,9 +98,10 @@
             let size = 20;
             let map  = [];
             let selected = null;
-            for (y=0;y<size;y++){
+            let current_room = null;
+            for (x=0;x<size;x++){
                 let row = []
-                for (x=0;x<size;x++){
+                for (y=0;y<size;y++){
                     row.push({
                         "x": x,
                         "y": y,
@@ -114,28 +127,107 @@
                 let x = e.target.getAttribute("data-x");
                 let y = e.target.getAttribute("data-y");
                 let room = map[y][x];
-                document.getElementById("description").innerText = room.description;
-                document.getElementById("items").innerText = room.items;
-                document.getElementById("entities").innerText = room.entities;
+                current_room = room;
+                console.log(current_room);
+                document.getElementById("description").value = room.description;
+                document.getElementById("items").value = room.items;
+                document.getElementById("entities").value = room.entities;
                 document.getElementById("door-n").checked = room.doors.n;
                 document.getElementById("door-s").checked = room.doors.s;
                 document.getElementById("door-e").checked = room.doors.e;
                 document.getElementById("door-w").checked = room.doors.w;
                 document.getElementById("name").innerText = "Room X:" + room.x + ", Y:" + room.y;
+                save();
 
+            }
+            function save(){
+                map[current_room.x][current_room.y] = {
+                    "x": current_room.x,
+                    "y": current_room.y,
+                    "description": document.getElementById("description").value,
+                    "items": document.getElementById("items").value,
+                    "entities": document.getElementById("entities").value,
+                    "doors": {
+                        "w": document.getElementById("door-w").checked,
+                        "e": document.getElementById("door-e").checked,
+                        "n": document.getElementById("door-n").checked,
+                        "s": document.getElementById("door-s").checked
+                    }
+                }
+
+                if (map[current_room.x - 1][current_room.y]){
+                    if (document.getElementById("door-w").checked){
+                        map[current_room.x - 1][current_room.y].doors.e = true;
+                    }
+                    else{
+                        map[current_room.x - 1][current_room.y].doors.e = false;
+                    }
+                }
+                if (map[current_room.x + 1][current_room.y]){
+                    if (document.getElementById("door-e").checked){
+                        map[current_room.x + 1][current_room.y].doors.w = true;
+                    }
+                    else{
+                        map[current_room.x + 1][current_room.y].doors.w = false;
+                    }
+                }
+                if (map[current_room.x][current_room.y - 1]){
+                    if (document.getElementById("door-n").checked){
+                        map[current_room.x][current_room.y - 1].doors.s = true;
+                    }
+                    else{
+                        map[current_room.x][current_room.y - 1].doors.s = false;
+                    }
+                }
+                if (map[current_room.x][current_room.y + 1]){
+                    if (document.getElementById("door-s").checked){
+                        map[current_room.x][current_room.y + 1].doors.n = true;
+                    }
+                    else{
+                        map[current_room.x][current_room.y - 1].doors.n = false;
+                    }
+                }
+                rendermap(map)
             }
 
             function rendermap(map){
                 const parent = document.getElementById("main-map");
+                parent.innerHTML = "";
                 for (row in map){
                     let row_div = document.createElement('div');
                     row_div.className = "row";
                     for (room in map[row]){
                         let room_div = document.createElement('div');
                         room_div.className = "room";
+                        if (current_room){
+                            if (current_room.x == room && current_room.y == row){ room_div.className = "room selected" }
+
+                        }
                         room_div.addEventListener("click", select, false);
                         room_div.setAttribute("data-x", map[row][room].x);
-                        room_div.setAttribute("data-y", map[row][room].y)
+                        room_div.setAttribute("data-y", map[row][room].y);
+                        console.log(row, room);
+                        if (map[room][row].doors.n){
+                            let door = document.createElement("div");
+                            door.className = "door_n";
+                            room_div.appendChild(door);
+                        }
+                        if (map[room][row].doors.s){
+                            let door = document.createElement("div");
+                            door.className = "door_s";
+                            room_div.appendChild(door);
+                        }
+                        if (map[room][row].doors.e){
+                            let door = document.createElement("div");
+                            door.className = "door_e";
+                            room_div.appendChild(door);
+                        }
+                        if (map[room][row].doors.w){
+                            let door = document.createElement("div");
+                            door.className = "door_w";
+                            room_div.appendChild(door);
+                        }
+
                         row_div.appendChild(room_div);
                     }
                     parent.append(row_div);
