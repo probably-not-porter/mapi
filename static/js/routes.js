@@ -1,23 +1,23 @@
-const api_url = "http://discus.home:5000";
+const api_url = window.location.href;
 
 let current_map_id = null;
 let current_zoom = 8;
 
-function get_map(id=0, zoom=current_zoom){
-            
-    document.getElementById("id").innerHTML = "Map #" + id;
+function get_map(){
+    document.getElementById("id").innerHTML = "Map #" + current_map_id;
     document.getElementById("main-map").innerHTML = ""; //could be loading animation
-    
-    $.getJSON(api_url + '/get_map?id=' + id, function(data) {
+    console.log(current_map_id);
+    $.getJSON(api_url + '/get_map?id=' + current_map_id, function(data) {
         console.info("--> Successfully retreived map.", data);
-        render_map(data, zoom, id)
+        render_map(data, current_zoom, current_map_id)
     }).fail(function() {
         onfail();
     });
 }
 function render_map(data, zoom){
-    console.info("--> Drawing map...")
-    current_map_id = id;
+    console.info("--> Drawing map...");
+    console.log(data.meta.id);
+    current_map_id = data.meta.id;
     let map = data.map;
     let wh = Object.keys(map).length; // assume square
     for(y = 1; y <= wh; y++){
@@ -28,7 +28,7 @@ function render_map(data, zoom){
 
             
 
-            if (map[y] && map[x][y]){ 
+            if (map[x] && map[x][y]){ 
                 d.className = "room";
 
                 // set up stat event
@@ -112,7 +112,8 @@ function new_map(){
     let size = document.getElementById("inp_size").value;
     $.getJSON(api_url + '/post_map?map=' + map_gen + '&item=' + item_gen + '&entity=' + entity_gen + '&size=' + size, function(data) {
         console.info("--> Successfully created new map.", data);
-        get_map(data.id);
+        current_map_id = data.id;
+        get_map();
     }).fail(function() {
         onfail();
     });
@@ -150,4 +151,12 @@ function onfail(){
     alert("Somethings gone wrong. Check the console (f11) for more information.");
     console.error("## THEYRE JAMMING THE RADAR ## - The API connection failed. Check that the API is running and that the address in the 'routes.js' file is correct.");
 }
-//get_map();  
+
+function zoomin(){
+    current_zoom += 1;
+    get_map();
+}
+function zoomout(){
+    current_zoom -= 1;
+    get_map();
+}
