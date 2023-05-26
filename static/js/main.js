@@ -16,7 +16,6 @@ function get_map(){
 }
 function render_map(data, zoom){
     console.info("--> Drawing map...");
-    console.log(data.meta.id);
     current_map_id = data.meta.id;
     let map = data.map;
     let wh = Object.keys(map).length; // assume square

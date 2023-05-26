@@ -268,6 +268,16 @@ def main(size):
                         "w": False
                     }
                 }
+                if maze[x][y-1] == "c": #north
+                    new_room["doors"]["n"] = True
+                if maze[x][y+1] == "c": #south
+                    new_room["doors"]["s"] = True
+                if x+1 in maze:
+                    if maze[x+1][y] == "c": #east
+                        new_room["doors"]["e"] = True
+                if maze[x-1][y] == "c": #west
+                    new_room["doors"]["w"] = True
+
                 if x not in room_obj: room_obj[x] = {}
                 room_obj[x][y] = new_room
     return room_obj
